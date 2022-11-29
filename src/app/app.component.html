@@ -6,7 +6,17 @@
   -->
   <div class="chat-container">
     <div class="chat">
-      <div class="message"></div>
+      <!--<div class="message"></div>-->
+    </div>
+  </div>
+
+  <div class="parent" *ngFor="let testContainer of testContainers">
+    <div class="Header">{{testContainer.testName}}         {{testContainer.testResult}}     {{testContainer.tagContainer.length}}</div>
+    <div class="children" *ngFor="let tagContainer of testContainer.tagContainer">
+      <p>{{tagContainer.log}}</p>
+      <p>{{tagContainer.descricao}}</p>
+      <p>{{tagContainer.errorMessage}}</p>
+      <p>{{tagContainer.testResult}}</p>
     </div>
   </div>
 </div>

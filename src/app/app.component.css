@@ -41,4 +41,18 @@
   
   }
   */
+  .parent{
+    text-align: left;
+    margin: 0 auto;
+    width: 50%;
+    height: 100%;
+    border: 1px solid grey;
+  }
   
+  .children{
+    text-align: left;
+    margin: 0 auto;
+    width: 50%;
+    height: 100%;
+    border: 1px solid grey;
+  }
