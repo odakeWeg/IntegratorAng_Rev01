@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import * as SockJS from 'sockjs-client';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
