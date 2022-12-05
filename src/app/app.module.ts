@@ -4,10 +4,12 @@ import * as SockJS from 'sockjs-client';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { UserInputComponent } from './user-input/user-input.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserInputComponent
   ],
   imports: [
     BrowserModule,

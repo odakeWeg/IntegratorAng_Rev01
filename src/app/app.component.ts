@@ -6,14 +6,6 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import * as $ from "jquery";
 
-//@Todo: this code is not being used
-const EXIBIT_VALUES = "exibir"
-const USER_CONFIRM = "confirmacao";
-const USER_INPUT = "input";
-const INIT = "iniciar";
-const SHOW_FINAL_RESULT = "finalizacao";
-const TEST_STATUS_UPDATE = "status";
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,6 +18,7 @@ export class AppComponent {
 
   testContainers: TestContainer[] = []
 
+  //@Todo: Create Cancel buttom
   constructor(){
     this.initializeWebSocketConnection();
   }
@@ -67,6 +60,16 @@ export class AppComponent {
     $('#cadastro').val('');
   }
 
+  response(message: any){
+    this.stompClient.send("/tester/confirmation" , {}, message);
+    $('#resp').val('');
+  }
+  
+  inputResponse(message: any){
+    this.stompClient.send("/tester/input" , {}, message);
+    $('#inputField').val('');
+  }
+
   iniciar(message: any):void {
     //1) Acertar valores na variavel de container parent e dar push
     let testContainer = new TestContainer()
@@ -80,17 +83,17 @@ export class AppComponent {
   exibir(message: any):void {
     //1) Acertar valores de Tag
     for (let i = 0; i < this.testContainers.length; i++) {
+      //3) Descobrir qual é o container parent a partir do nome do test?
       if (this.testContainers[i].testName==message.testName) {
         let tagContainer = new TagContainer()
         tagContainer.descricao = message.descricao
         tagContainer.errorMessage = message.errorMessage
         tagContainer.log = message.log
         tagContainer.testResult = message.testResult
+        //2) Dar Push no valor de Tag
         this.testContainers[i].tagContainer.push(tagContainer)
       }
     }
-    //2) Dar Push no valor de Tag
-    //3) Descobrir qual é o container parent a partir do nome do test?
   }
 
   status(message: any):void {
@@ -257,4 +260,13 @@ iniciar(message: any):void {
     b.testName = "name2"
     b.tagContainer = [tag]
     this.testContainers = [a, b]
+    */
+
+    /*
+    const EXIBIT_VALUES = "exibir"
+    const USER_CONFIRM = "confirmacao";
+    const USER_INPUT = "input";
+    const INIT = "iniciar";
+    const SHOW_FINAL_RESULT = "finalizacao";
+    const TEST_STATUS_UPDATE = "status";
     */
