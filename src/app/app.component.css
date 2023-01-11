@@ -56,3 +56,7 @@
     height: 100%;
     border: 1px solid grey;
   }
+
+  .message{
+    border: 1px solid grey;
+  }

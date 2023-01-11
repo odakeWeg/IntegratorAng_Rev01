@@ -17,6 +17,7 @@ export class AppComponent {
   private stompClient: any;
 
   testContainers: TestContainer[] = []
+  positionContainers: TagContainer[] = [] //Added but not implemented
 
   //@Todo: Create Cancel buttom
   constructor(){
@@ -30,8 +31,9 @@ export class AppComponent {
     
     this.stompClient.connect({}, function(frame: any) {
       that.stompClient.subscribe("/feedback", (message: any) => {
-        if(message.body) {
+        if(message.body) {  //fazer append de uma variável e utilizar o ngFor no html
           $(".chat").append("<div class='message'>"+/*JSON.parse(message.body)["cadastro"]*/message.body+"</div>")
+          //$(".chat").append("<div style='border: 1px solid grey;'>Teste</div>")
           console.log(message.body);
         }
       });
@@ -41,7 +43,7 @@ export class AppComponent {
     let stompClient2 = Stomp.over(ws2);
     
     stompClient2.connect({}, function(frame: any) {
-      stompClient2.subscribe("/feedback2", (message: any) => {
+      stompClient2.subscribe("/feedback2", (message: any) => {  
         if(message.body) {
           let exp = "that."+JSON.parse(message.body).action+"(JSON.parse(message.body))"
           eval(exp)
@@ -50,24 +52,32 @@ export class AppComponent {
     });
   }
 
-  sendMessage(message: any){
-    this.stompClient.send("/tester/log" , {}, message);
+  sendMessage(message: String){
+    console.log(typeof message)
+    console.log(typeof [message,"asd"][0])
+    console.log(typeof [message])
+    this.stompClient.send("/tester/log", {}, [message, message].toString());
     $('#input').val('');
   }
 
   login(message: any){
-    this.stompClient.send("/tester/startSession" , {}, message);
+    this.stompClient.send("/tester/startSession", {}, message);
     $('#cadastro').val('');
   }
 
   response(message: any){
-    this.stompClient.send("/tester/confirmation" , {}, message);
+    this.stompClient.send("/tester/confirmation", {}, message);
     $('#resp').val('');
   }
   
   inputResponse(message: any){
-    this.stompClient.send("/tester/input" , {}, message);
+    this.stompClient.send("/tester/input", {}, message);
     $('#inputField').val('');
+  }
+
+  endSessionResponse(message: any){
+    this.stompClient.send("/tester/endSession", {}, message);
+    $('#endSession').val('');
   }
 
   iniciar(message: any):void {
@@ -94,6 +104,17 @@ export class AppComponent {
         this.testContainers[i].tagContainer.push(tagContainer)
       }
     }
+  }
+
+  stopRoutine(message: any):void {
+    this.stompClient.send("/tester/stop" , {}, message);
+    $('#stop').val('');
+  }
+
+  starting(message: any):void {
+    //@Todo
+    $(".chat").append("<div class='message'>"+message.descricao+ "->" + message.position+"</div>")
+    console.log(message.descricao);
   }
 
   status(message: any):void {

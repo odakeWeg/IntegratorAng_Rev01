@@ -6,7 +6,7 @@
   -->
   <div class="chat-container">
     <div class="chat">
-      <!--<div class="message"></div>-->
+      <div class="message">Teste</div>
     </div>
   </div>
 
@@ -19,12 +19,16 @@
       <p>{{tagContainer.testResult}}</p>
     </div>
   </div>
+
+  <div class="end-container">
+    <div class="end">
+      <div class="message">Teste end</div>
+    </div>
+  </div>
 </div>
 
 <div class="footer">
   <div class="send-button">
-
-    
     <input  id="input" type="text" #input>
     <div class="send" (click)="sendMessage(input.value)">
       <button>Mac</button> 
@@ -41,6 +45,17 @@
     <div class="send" (click)="inputResponse(inputField.value)">
       <button>Input</button> 
     </div>
+    <input  id="endSession" type="text" #inputField>
+    <div class="send" (click)="endSessionResponse(inputField.value)">
+      <button>end</button> 
+    </div>
+    <input  id="stop" type="text" #stop>
+    <div class="send" (click)="stopRoutine(stop.value)">
+      <button>Stop</button> 
+    </div>
+    <input  id="stop" type="text" #stop>
+    <div class="send">
+    <a [routerLink]="['/test']">Forms</a>
+    </div>
   </div>
-
 </div>
