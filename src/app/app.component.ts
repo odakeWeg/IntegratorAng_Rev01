@@ -19,8 +19,10 @@ export class AppComponent {
   private stompClient: any;
 
   testContainers: TestContainer[] = []
-  positionContainers: ProductLog[] = [] //Added but not implemented
+  positionContainers: ProductLog[] = []
   resultContainers: ResultLog[] = []
+
+  positionToShow: any = 1
  
   //@Todo: Create Cancel buttom
   constructor(){
@@ -28,12 +30,13 @@ export class AppComponent {
   }
 
   initializeWebSocketConnection(){
+    //@Todo: Remove this first part, only sencond is usefull
     let ws = new SockJS(this.serverUrl);
     this.stompClient = Stomp.over(ws);
     let that = this;
     
     this.stompClient.connect({}, function(frame: any) {
-      that.stompClient.subscribe("/feedback", (message: any) => {
+      that.stompClient.subscribe("/feedback2", (message: any) => {
         if(message.body) {  //fazer append de uma variável e utilizar o ngFor no html
           $(".chat").append("<div class='message'>"+/*JSON.parse(message.body)["cadastro"]*/message.body+"</div>")
           //$(".chat").append("<div style='border: 1px solid grey;'>Teste</div>")
@@ -46,7 +49,7 @@ export class AppComponent {
     let stompClient2 = Stomp.over(ws2);
     
     stompClient2.connect({}, function(frame: any) {
-      stompClient2.subscribe("/feedback2", (message: any) => {  
+      stompClient2.subscribe("/channel", (message: any) => {  
         if(message.body) {
           let exp = "that."+JSON.parse(message.body).action+"(JSON.parse(message.body))"
           eval(exp)
@@ -172,7 +175,13 @@ export class AppComponent {
       this.resultContainers.push(result)
     }
   }
+
+  setPosistionToShow(position: any):void {
+    this.positionToShow = position
+  }
 }
+
+  
 
 
 /*

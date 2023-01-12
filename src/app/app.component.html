@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 <div style="text-align:center">
   <!--
   <h1>
@@ -9,12 +13,20 @@
       <!--
         <div class="message">Teste</div>
       -->
-      <div class="children" *ngFor="let positionContainer of positionContainers">
-        <p>Serial: {{positionContainer.serial}}</p>
-        <p>Material: {{positionContainer.material}}</p>
-        <p>Descrição: {{positionContainer.descricao}}</p>
-        <p>Position: {{positionContainer.position}}</p>
+
+      <ul class="pagination">
+        <li *ngFor="let positionContainer of positionContainers, let i=index"><button (click)="setPosistionToShow(i+1)">{{i+1}}</button></li>
+      </ul>
+
+      <div class="children" *ngFor="let positionContainer of positionContainers, let i=index">
+        <div *ngIf="i==(positionToShow-1)">
+          <p>Serial: {{positionContainers[i].serial}}</p>
+          <p>Material: {{positionContainers[i].material}}</p>
+          <p>Descrição: {{positionContainers[i].descricao}}</p>
+          <p>Position: {{positionContainers[i].position}}</p>
+        </div>
       </div>
+      
     </div>
   </div>
 
@@ -30,13 +42,19 @@
 
   <div class="end-container">
     <div class="end">
-      <div class="message">Teste end</div>
-      <div class="children" *ngFor="let resultContainer of resultContainers">
-        <p>Action: {{resultContainer.action}}</p>
-        <p>Finished: {{resultContainer.finished}}</p>
-        <p>Position: {{resultContainer.position}}</p>
-        <p>Result: {{resultContainer.result}}</p>
-        <p>Status: {{resultContainer.status}}</p>
+
+      <ul class="pagination">
+        <li *ngFor="let positionContainer of positionContainers, let i=index"><button (click)="setPosistionToShow(i+1)">{{i+1}}</button></li>
+      </ul>
+
+      <div class="children" *ngFor="let resultContainer of resultContainers, let i=index">
+        <div *ngIf="i==(positionToShow-1)">
+          <p>Action: {{resultContainers[i].action}}</p>
+          <p>Finished: {{resultContainers[i].finished}}</p>
+          <p>Position: {{resultContainers[i].position}}</p>
+          <p>Result: {{resultContainers[i].result}}</p>
+          <p>Status: {{resultContainers[i].status}}</p>
+        </div>
       </div>
     </div>
   </div>
