@@ -1,3 +1,5 @@
+import { ResultLog } from './models/result-log.model';
+import { ProductLog } from './models/product-log.model';
 import { TagContainer } from './models/tag-conteiner.model';
 import { TestContainer } from './models/test-conteiner.model';
 import { Component } from '@angular/core';
@@ -17,8 +19,9 @@ export class AppComponent {
   private stompClient: any;
 
   testContainers: TestContainer[] = []
-  positionContainers: TagContainer[] = [] //Added but not implemented
-
+  positionContainers: ProductLog[] = [] //Added but not implemented
+  resultContainers: ResultLog[] = []
+ 
   //@Todo: Create Cancel buttom
   constructor(){
     this.initializeWebSocketConnection();
@@ -112,9 +115,17 @@ export class AppComponent {
   }
 
   starting(message: any):void {
-    //@Todo
-    $(".chat").append("<div class='message'>"+message.descricao+ "->" + message.position+"</div>")
-    console.log(message.descricao);
+    //@Todo -> sort of done
+    //$(".chat").append("<div class='message'>"+message.descricao+ "->" + message.position+"</div>")
+    //console.log(message.descricao);
+    console.log(message);
+    let productLog = new ProductLog()
+    productLog.serial = message.serial
+    productLog.material = message.material
+    productLog.produto = message.produto
+    productLog.descricao = message.descricao
+    productLog.position = message.position
+    this.positionContainers.push(productLog)
   }
 
   status(message: any):void {
@@ -137,8 +148,29 @@ export class AppComponent {
 
   finalizacao(message: any):void {
     //@Todo
-    $(".chat").append("<p>EndTest:</p><div class='message'>"+message.body+"</div>")
-    console.log(message.body);
+    //$(".end").append("<div class='message'>Result: "+message.result+" Position: "+message.position+"</div>")
+    console.log(message);
+    let exist = false
+    let position = 0
+    let result = new ResultLog()
+    result.action = message.action
+    result.finished = message.finished
+    result.position = message.position
+    result.result = message.result
+    result.status = message.status
+    
+    this.resultContainers.forEach(function(item) {
+      if (item.position==message.position) {
+        position = item.position
+        exist = true
+      }
+    })
+
+    if(exist) {
+      this.resultContainers[position-1] = result
+    } else {
+      this.resultContainers.push(result)
+    }
   }
 }
 
